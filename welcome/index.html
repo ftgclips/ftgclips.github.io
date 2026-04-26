@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>pack on the way · FTG Clips</title>
 <meta name="description" content="check your inbox in 60 seconds. heads up: gmail dumps these in promotions or spam.">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V7E52JPLES"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-V7E52JPLES');
+  gtag('event', 'optin_complete', { funnel_step: '2_optin_complete' });
+</script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body {
@@ -169,7 +177,7 @@ h1 .accent { color: #FF6B1A; }
     </ol>
   </div>
 
-  <a href="https://ftgclips.github.io/join/" class="cta">→ see matt's 7-day trial</a>
+  <a href="https://ftgclips.github.io/join/" class="cta" id="ctaTrial">→ see matt's 7-day trial</a>
 
   <p class="countdown">
     auto-redirecting in <span id="seconds">10</span> seconds...
@@ -181,12 +189,25 @@ h1 .accent { color: #FF6B1A; }
 
 <script>
 let s = 10;
+let manualClicked = false;
 const el = document.getElementById('seconds');
+const ctaBtn = document.getElementById('ctaTrial');
+if (ctaBtn) {
+  ctaBtn.addEventListener('click', () => {
+    manualClicked = true;
+    if (typeof gtag === 'function') {
+      gtag('event', 'trial_click_manual', { funnel_step: '3_trial_click', method: 'manual' });
+    }
+  });
+}
 const interval = setInterval(() => {
   s--;
   if (el) el.textContent = s;
   if (s <= 0) {
     clearInterval(interval);
+    if (!manualClicked && typeof gtag === 'function') {
+      gtag('event', 'trial_click_auto', { funnel_step: '3_trial_click', method: 'auto_redirect' });
+    }
     window.location.href = 'https://ftgclips.github.io/join/';
   }
 }, 1000);
