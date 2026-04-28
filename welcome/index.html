@@ -13,6 +13,24 @@
   gtag('config', 'G-V7E52JPLES');
   gtag('event', 'optin_complete', { funnel_step: '2_optin_complete' });
 </script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '916580194669803');
+fbq('track', 'PageView');
+fbq('trackCustom', 'OptinComplete');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=916580194669803&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body {
@@ -198,6 +216,9 @@ if (ctaBtn) {
     if (typeof gtag === 'function') {
       gtag('event', 'trial_click_manual', { funnel_step: '3_trial_click', method: 'manual' });
     }
+    if (typeof fbq === 'function') {
+      fbq('trackCustom', 'TrialClick', { method: 'manual' });
+    }
   });
 }
 const interval = setInterval(() => {
@@ -207,6 +228,9 @@ const interval = setInterval(() => {
     clearInterval(interval);
     if (!manualClicked && typeof gtag === 'function') {
       gtag('event', 'trial_click_auto', { funnel_step: '3_trial_click', method: 'auto_redirect' });
+    }
+    if (!manualClicked && typeof fbq === 'function') {
+      fbq('trackCustom', 'TrialClick', { method: 'auto' });
     }
     window.location.href = 'https://ftgclips.github.io/join/';
   }
